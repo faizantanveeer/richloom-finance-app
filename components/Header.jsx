@@ -11,8 +11,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { LayoutDashboard, PenBox, PenBoxIcon } from "lucide-react";
+import { checkUser } from "@/lib/server/checkUser";
 
-function Header() {
+const Header = async () => {
+  await checkUser();
   return (
     <div className="fixed top-0 w-full z-50 backdrop-blur-md bg-white-30 shadow-md ">
       <nav className="container flex items-center justify-between mx-auto p-2 bg-white-30">
@@ -32,14 +34,14 @@ function Header() {
               href="/dashboard"
               className="text-gray-600 hover:text-gray-800"
             >
-              <Button variant="outline" className="">
+              <Button variant="outline" className="cursor-pointer">
                 <LayoutDashboard className="" size={20} />
                 <span className="hidden md:inline">Dashboard</span>
               </Button>
             </Link>
 
             <Link href="/transaction/create" className="">
-              <Button variant="default" className="">
+              <Button variant="default" className="cursor-pointer">
                 <PenBoxIcon className=" " size={20} />
                 <span className="hidden md:inline">Add Transaction</span>
               </Button>
@@ -47,18 +49,17 @@ function Header() {
           </SignedIn>
 
           <SignedOut>
-            <Link href="/sign-in">
+            <SignInButton forceRedirectUrl="/dashboard">
+              <Button variant="outline" className="cursor-pointer">
+                Sign In
+              </Button>
+            </SignInButton>
 
-            <Button variant="outline">
-              <SignInButton forcedRedirectTo="/dashboard" />
-            </Button>
-            </Link>
-
-            <Link href="/sign-up">
-            <Button variant="outline" >
-              <SignUpButton />
-            </Button>
-            </Link>
+            <SignUpButton>
+              <Button variant="outline" className="cursor-pointer">
+                Sign Up
+              </Button>
+            </SignUpButton>
           </SignedOut>
 
           <SignedIn>
@@ -68,6 +69,6 @@ function Header() {
       </nav>
     </div>
   );
-}
+};
 
 export default Header;

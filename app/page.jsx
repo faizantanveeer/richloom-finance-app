@@ -12,7 +12,7 @@ export default function Home() {
       <HeroSection />
 
       {/* Stats Section */}
-      <section className="py-20 bg-green-50">
+      <section className=" bg-green-50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
             {statsData.map((stat, index) => (
