@@ -4,22 +4,25 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-const createAccount = async (data) => {
+const serializedTransaction = (obj) => {
+  const serialzed = { ...obj };
 
-
-  const serializedTransaction = (obj) => {
-    const serialzed = {...obj };  
-
-    if (obj.balance) {
-      serialzed.balance = obj.balance.toNumber();  
-    }
-
-    return serialzed;
+  if (obj.balance) {
+    serialzed.balance = obj.balance.toNumber();
   }
 
+  if (obj.amount) {
+    serialzed.amount = obj.amount.toNumber();
+  }
+
+  return serialzed;
+};
+
+
+export async function createAccount(data) {
   try {
     const { userId } = await auth();
-    console.log(userId)
+    console.log(userId);
 
     if (!userId) throw new Error("User not authenticated");
 
@@ -57,23 +60,55 @@ const createAccount = async (data) => {
       });
     }
 
-
     const account = await db.accounts.create({
-      data:{
+      data: {
         ...data,
-        userId: user.id, 
-        balance: balanceFloat,  
-        isDefault: shouldBeDefault
-      }
-    })
+        userId: user.id,
+        balance: balanceFloat,
+        isDefault: shouldBeDefault,
+      },
+    });
 
-
-    const serialzedAccount =  serializedTransaction(account);
-    revalidatePath('/dashboard')
-    return {success: true, data: serialzedAccount}; 
+    const serialzedAccount = serializedTransaction(account);
+    revalidatePath("/dashboard");
+    return { success: true, data: serialzedAccount };
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-export default createAccount;
+export async function getUserAccounts() {
+  try {
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not authenticated");
+
+    const user = await db.user.findUnique({
+      where: {
+        clerkUserId: userId,
+      },
+    });
+
+    if (!user) throw new Error("User Not Found");
+
+    const accounts = await db.accounts.findMany({
+      where: {
+        userId: user.id,
+      },
+      orderBy: { createdAt: "desc" },
+      include: {
+        _count: {
+          select: {
+            transactions: true,
+          },
+        },
+      },
+    });
+
+    const serializedAccounts = accounts.map(serializedTransaction);
+
+    return serializedAccounts;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+

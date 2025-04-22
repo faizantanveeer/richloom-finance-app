@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import {
   Drawer,
@@ -22,7 +23,7 @@ import {
 import { Switch } from "./ui/switch";
 import { Button } from "./ui/button";
 import useFetch from "@/hooks/user-fetch";
-import createAccount from "@/actions/dashboard";
+import {createAccount} from "@/actions/dashboard";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
