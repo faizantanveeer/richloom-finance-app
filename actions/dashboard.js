@@ -18,7 +18,6 @@ const serializedTransaction = (obj) => {
   return serialzed;
 };
 
-
 export async function createAccount(data) {
   try {
     const { userId } = await auth();
@@ -75,7 +74,7 @@ export async function createAccount(data) {
   } catch (error) {
     throw new Error(error.message);
   }
-};
+}
 
 export async function getUserAccounts() {
   try {
@@ -110,5 +109,4 @@ export async function getUserAccounts() {
   } catch (error) {
     throw new Error(error.message);
   }
-};
-
+}
