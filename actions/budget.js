@@ -17,7 +17,6 @@ export async function getCurrentBudget(accountId) {
 
     if (!user) throw new Error("User Not Found");
 
-
     let budget = await db.budgets.findUnique({
       where: { userId: user.id },
     });
@@ -25,7 +24,6 @@ export async function getCurrentBudget(accountId) {
     if (!budget) {
       console.log("No budget found");
     }
-
 
     const currentDate = new Date();
 
@@ -40,7 +38,6 @@ export async function getCurrentBudget(accountId) {
       currentDate.getMonth() + 1,
       0
     );
-
     const expense = await db.transactions.aggregate({
       where: {
         userId: user.id,
@@ -56,7 +53,7 @@ export async function getCurrentBudget(accountId) {
       },
     });
 
-
+    console.log("expense", expense);
     return {
       budget: budget ? { ...budget, amount: budget.amount.toNumber() } : null,
       currentExpenses: expense._sum.amount ? expense._sum.amount.toNumber() : 0,
@@ -95,8 +92,6 @@ export async function updateBudget(amount) {
     });
 
     revalidatePath("/dashboard");
-
-    
 
     return {
       success: true,
