@@ -53,7 +53,6 @@ export async function getCurrentBudget(accountId) {
       },
     });
 
-    console.log("expense", expense);
     return {
       budget: budget ? { ...budget, amount: budget.amount.toNumber() } : null,
       currentExpenses: expense._sum.amount ? expense._sum.amount.toNumber() : 0,

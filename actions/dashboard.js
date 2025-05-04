@@ -21,7 +21,7 @@ const serializedTransaction = (obj) => {
 export async function createAccount(data) {
   try {
     const { userId } = await auth();
-    console.log(userId);
+    // console.log(userId);
 
     if (!userId) throw new Error("User not authenticated");
 

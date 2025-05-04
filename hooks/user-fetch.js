@@ -4,21 +4,20 @@ const { useState } = require("react");
 
 const useFetch = (cb) => {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const fn = async (...args) => {
-    //If our callback (cb) has arguments sent to it, we can use the spread operator to get them all and pass them to the callback function.
     setLoading(true);
     setError(null);
 
     try {
       const response = await cb(...args);
       setData(response);
-      setError(null);
+      return response;
     } catch (error) {
-      setError(error);
-      toast.error(error.message || "An error occurred");
+      setError(error); // Update state
+      throw error;     // Also allow caller to catch
     } finally {
       setLoading(false);
     }
@@ -26,5 +25,6 @@ const useFetch = (cb) => {
 
   return { data, loading, error, fn, setData };
 };
+
 
 export default useFetch;

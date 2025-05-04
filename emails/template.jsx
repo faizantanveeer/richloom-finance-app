@@ -12,11 +12,11 @@ export default function EmailTemplate({
 
   return (
     <Html>
-      <Head />
+      <Head />  
       <Preview>{isCritical ? '⚠️ Critical Budget Alert' : 'Your Budget Update'}</Preview>
       <Body style={main}>
         <Container style={container}>
-          {/* Elegant header with subtle pattern */}
+          {/* Header with relative units */}
           <div style={header}>
             <div style={headerPattern}></div>
             <Heading style={title}>Budget Overview</Heading>
@@ -34,7 +34,7 @@ export default function EmailTemplate({
                 of your monthly budget
               </Text>
               
-              {/* Sophisticated progress bar */}
+              {/* Fluid progress bar */}
               <div style={progressContainer}>
                 <div 
                   style={{
@@ -54,7 +54,7 @@ export default function EmailTemplate({
               </div>
             </div>
 
-            {/* Financial summary in elegant cards */}
+            {/* Fluid grid layout */}
             <div style={summaryGrid}>
               <div style={summaryCard}>
                 <Text style={summaryLabel}>Total Budget</Text>
@@ -76,7 +76,7 @@ export default function EmailTemplate({
               </div>
             </div>
 
-            {/* Action section */}
+            {/* Responsive action section */}
             <div style={actionCard}>
               <Text style={actionText}>
                 {isCritical 
@@ -94,7 +94,7 @@ export default function EmailTemplate({
             </div>
           </Section>
 
-          {/* Minimalist footer */}
+          {/* Fluid footer */}
           <Section style={footer}>
             <Text style={footerText}>Financial Wellness Tracker</Text>
             <div style={footerDivider}></div>
@@ -108,26 +108,43 @@ export default function EmailTemplate({
   );
 }
 
-// Modern green theme styles
+// Base font size for rem units
+const baseFontSize = 16;
+
+// Responsive styles using relative units
 const main = {
   backgroundColor: "#f8fafc",
-  fontFamily:
-    "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
-  padding: "40px 0",
+  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  padding: "1.25rem 0",
   color: "#1f2937",
+  width: "100%",
+  fontSize: `${baseFontSize}px`,
+  lineHeight: 1.5,
+  overflowX: "hidden",
+  justifyContent: "center",
+  alignItems: "center", 
+  display: "flex",
+  flexDirection: "column",
+  
 };
 
 const container = {
   backgroundColor: "#ffffff",
   margin: "0 auto",
-  maxWidth: "600px",
-  borderRadius: "12px",
-  boxShadow: "0 4px 24px rgba(5, 46, 22, 0.08)",
+  maxWidth: "37.5rem", // 600px
+  width: "92%", // Leaves 4% padding on each side
+  borderRadius: "0.75rem",
+  boxShadow: "0 0.25rem 1.5rem rgba(5, 46, 22, 0.08)",
   overflow: "hidden",
+  "@media (max-width: 480px)": {
+    width: "100%",
+    borderRadius: 0,
+    boxShadow: "none",
+  },
 };
 
 const header = {
-  padding: "40px 40px 20px",
+  padding: "1.875rem 1.25rem 0.9375rem",
   background: "#ffffff",
   color: "#064e3b",
   position: "relative",
@@ -140,87 +157,98 @@ const headerPattern = {
   top: 0,
   left: 0,
   right: 0,
-  height: "8px",
+  height: "0.375rem",
   background: "linear-gradient(90deg, #059669, #10b981)",
 };
 
 const title = {
   color: "#064e3b",
-  fontSize: "24px",
-  fontWeight: "700",
-  margin: "0 0 8px",
-  letterSpacing: "-0.5px",
+  fontSize: "1.5rem",
+  fontWeight: 700,
+  margin: "0 0 0.5rem",
+  lineHeight: 1.3,
 };
 
 const greeting = {
   color: "#6b7280",
-  fontSize: "16px",
-  margin: "0",
+  fontSize: "1rem",
+  margin: 0,
 };
 
 const content = {
-  padding: "0 40px 32px",
+  padding: "0 1.25rem 1.25rem",
+  "@media (min-width: 480px)": {
+    padding: "0 1.875rem 1.875rem",
+  },
 };
 
 const alertCard = {
   backgroundColor: "#f0fdf4",
-  borderRadius: "12px",
-  padding: "24px",
-  margin: "0 0 32px",
+  borderRadius: "0.625rem",
+  padding: "1.25rem",
+  margin: "0 0 1.5rem",
   border: "1px solid #d1fae5",
 };
 
 const alertText = {
-  fontSize: "18px",
-  lineHeight: "1.5",
-  margin: "0 0 20px",
+  fontSize: "1.125rem",
+  lineHeight: 1.5,
+  margin: "0 0 1rem",
   color: "#064e3b",
   textAlign: "center",
 };
 
 const normalText = {
   color: "#059669",
-  fontWeight: "700",
+  fontWeight: 700,
 };
 
 const warningText = {
   color: "#d97706",
-  fontWeight: "700",
+  fontWeight: 700,
 };
 
 const criticalText = {
   color: "#dc2626",
-  fontWeight: "700",
+  fontWeight: 700,
 };
 
 const progressContainer = {
   margin: "0 auto",
-  maxWidth: "400px",
+  maxWidth: "25rem",
+  width: "100%",
 };
 
 const progressBar = {
-  height: "10px",
-  borderRadius: "20px",
-  marginBottom: "8px",
+  height: "0.5rem",
+  borderRadius: "1.25rem",
+  marginBottom: "0.5rem",
 };
 
 const progressLabel = {
   display: "flex",
   justifyContent: "space-between",
-  fontSize: "12px",
+  width: "100%",
+  fontSize: "0.75rem",
   color: "#6b7280",
 };
 
 const summaryGrid = {
   display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr",
-  gap: "16px",
-  margin: "0 0 32px",
+  gridTemplateColumns: "1fr",
+  gap: "0.75rem",
+  margin: "0 0 1.5rem",
+  "@media (min-width: 480px)": {
+    gridTemplateColumns: "1fr 1fr",
+  },
+  "@media (min-width: 640px)": {
+    gridTemplateColumns: "1fr 1fr 1fr",
+  },
 };
 
 const summaryCard = {
-  padding: "20px",
-  borderRadius: "12px",
+  padding: "1rem",
+  borderRadius: "0.625rem",
   border: "1px solid #e5e7eb",
   textAlign: "center",
   backgroundColor: "#f9fafb",
@@ -228,48 +256,48 @@ const summaryCard = {
 
 const summaryLabel = {
   color: "#6b7280",
-  fontSize: "14px",
-  margin: "0 0 8px",
-  fontWeight: "500",
-  letterSpacing: "0.5px",
+  fontSize: "0.875rem",
+  margin: "0 0 0.5rem",
+  fontWeight: 500,
 };
 
 const summaryValue = {
   color: "#064e3b",
-  fontSize: "20px",
-  fontWeight: "700",
-  margin: "0",
+  fontSize: "1.25rem",
+  fontWeight: 700,
+  margin: 0,
 };
 
 const actionCard = {
   backgroundColor: "#ffffff",
-  borderRadius: "12px",
-  padding: "24px",
+  borderRadius: "0.625rem",
+  padding: "1.25rem",
   border: "1px solid #e5e7eb",
   textAlign: "center",
 };
 
 const actionText = {
-  fontSize: "16px",
-  lineHeight: "1.5",
-  margin: "0 0 20px",
+  fontSize: "1rem",
+  lineHeight: 1.5,
+  margin: "0 0 1rem",
   color: "#1f2937",
 };
 
 const actionButton = {
   backgroundColor: "#059669",
   color: "#ffffff",
-  fontSize: "16px",
-  fontWeight: "600",
-  padding: "12px 24px",
-  borderRadius: "8px",
+  fontSize: "1rem",
+  fontWeight: 600,
+  padding: "0.75rem 0.1rem",
+  borderRadius: "0.5rem 0.5rem",
   textDecoration: "none",
-  display: "inline-block",
-  boxShadow: "0 2px 4px rgba(5, 150, 105, 0.2)",
+  boxShadow: "0 0.125rem 0.25rem rgba(5, 150, 105, 0.2)",
+  width: "100%",
+  textAlign: "center",
 };
 
 const footer = {
-  padding: "24px 40px",
+  padding: "1.25rem",
   backgroundColor: "#f9fafb",
   textAlign: "center",
   borderTop: "1px solid #e5e7eb",
@@ -277,21 +305,21 @@ const footer = {
 
 const footerText = {
   color: "#064e3b",
-  fontSize: "14px",
-  fontWeight: "600",
-  margin: "0 0 12px",
+  fontSize: "0.875rem",
+  fontWeight: 600,
+  margin: "0 0 0.75rem",
 };
 
 const footerDivider = {
   height: "1px",
   backgroundColor: "#e5e7eb",
-  margin: "12px 0",
+  margin: "0.75rem 0",
 };
 
 const footerSmallText = {
   color: "#6b7280",
-  fontSize: "12px",
-  margin: "0",
+  fontSize: "0.75rem",
+  margin: 0,
 };
 
 const footerLink = {
