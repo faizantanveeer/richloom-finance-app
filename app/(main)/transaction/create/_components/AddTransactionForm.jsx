@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import RecieptScanner from "./RecieptScanner";
 
 const AddTransactionForm = ({ accounts, categories }) => {
   const router = useRouter();
@@ -92,9 +93,30 @@ const AddTransactionForm = ({ accounts, categories }) => {
   const filteredCategories = categories.filter(
     (category) => category.type === type
   );
+
+  const handleScanComplete = (scannedData) => {
+    if (scannedData) {
+      setValue("amount", scannedData.amount.toString());
+      setValue("date", new Date(scannedData.date));
+
+      if (scannedData.description) {
+        setValue("description", scannedData.description);
+      }
+
+      if (scannedData.category) {
+        const matchedCategory = categories.find(
+          (cat) => cat.name.toLowerCase() === scannedData.category.toLowerCase()
+        );
+        if (matchedCategory) {
+          setValue("category", matchedCategory.id);
+        }
+      }
+    }
+  };
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
       {/* AI Receipt Scanner */}
+      <RecieptScanner onScanComplete={handleScanComplete} />
 
       <div className="space-y-4">
         <label htmlFor="type" className="text-sm font-medium">
@@ -140,7 +162,7 @@ const AddTransactionForm = ({ accounts, categories }) => {
           </label>
           <Select
             onValueChange={(value) => setValue("accountId", value)}
-            defaultValue={getValues("accountId")}
+            value={watch("accountId")}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select Account" />
@@ -176,6 +198,7 @@ const AddTransactionForm = ({ accounts, categories }) => {
         <Select
           onValueChange={(value) => setValue("category", value)}
           defaultValue={getValues("category")}
+          value={watch("category")}
         >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select Category" />
