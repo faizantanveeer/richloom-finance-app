@@ -52,12 +52,10 @@ export default function EmailTemplate({
   data = {},
 }) {
   if (type === "monthly-report") {
-    console.log("Given Data", data);
     const income = data?.stats.totalIncome || 0;
     const expenses = data?.stats.totalExpense || 0;
     const savings = income - expenses;
 
-    console.log("data", data);
     const savingsPercentage =
       income > 0 ? ((savings / income) * 100).toFixed(1) : "0.0";
 

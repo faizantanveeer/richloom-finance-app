@@ -110,3 +110,31 @@ export async function getUserAccounts() {
     throw new Error(error.message);
   }
 }
+
+export async function getDashboardData() {
+  try {
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not authenticated");
+
+    const user = await db.user.findUnique({
+      where: {
+        clerkUserId: userId,
+      },
+    });
+
+    if (!user) throw new Error("User Not Found");
+
+    // Get all user transactions
+
+    const transactions = await db.transactions.findMany({
+      where: {
+        userId: user.id,
+      },
+      orderBy: { date: "desc" },
+    });
+
+    return transactions.map(serializedTransaction);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

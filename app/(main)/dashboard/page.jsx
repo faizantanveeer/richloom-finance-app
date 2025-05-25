@@ -1,19 +1,19 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import CreateAccountDrawer from "@/components/CreateAcountDrawer";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus } from "lucide-react";
-import { getUserAccounts } from "@/actions/dashboard";
+import { Loader2, Plus } from "lucide-react";
+import { getDashboardData, getUserAccounts } from "@/actions/dashboard";
 import AccountCard from "./_components/AccountCard";
 import { getCurrentBudget } from "@/actions/budget";
 import BudgetProgress from "./_components/BudgetProgress";
-import { ClipLoader } from "react-spinners"; 
+import { ClipLoader } from "react-spinners";
+import DashboardOverview from "./_components/DashboardOverview";
 
 const DashboardPage = async () => {
   const accounts = await getUserAccounts();
 
   const defaultAccount = accounts.find((account) => account.isDefault);
-
 
   let budgetData = null;
 
@@ -21,6 +21,7 @@ const DashboardPage = async () => {
     budgetData = await getCurrentBudget(defaultAccount.id);
   }
 
+  const transactions = await getDashboardData();
 
   return (
     <div className="container mx-auto space-y-8">
@@ -34,6 +35,10 @@ const DashboardPage = async () => {
       )}
 
       {/* Account Overview */}
+
+      <Suspense fallback={"Loading overview..."}>
+        <DashboardOverview accounts={accounts} transactions={transactions} />
+      </Suspense>
 
       {/* Account Grid*/}
 
