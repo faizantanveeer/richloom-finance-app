@@ -23,7 +23,6 @@ const DashboardPage = async () => {
 
   const transactions = await getDashboardData();
 
-  console.log("Budget Data:", budgetData);
   return (
     <div className="container mx-auto space-y-8">
       {/* Budget Progress */}

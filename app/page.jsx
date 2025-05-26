@@ -92,13 +92,15 @@ export default function Home() {
               <Card className="p-6 cursor-pointer hover:shadow-md" key={index}>
                 <CardContent className="space-y-4 pt-4">
                   <div className="flex items-center gap-4">
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      width={40}
-                      className={"rounded-full "}
-                      height={40}
-                    />
+                    <div className="w-12 h-12 relative">
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        fill
+                        sizes="48px"
+                        className="rounded-full object-cover"
+                      />
+                    </div>
 
                     <div>
                       <h3 className="text-green-600 font-seibold text-2xl">
