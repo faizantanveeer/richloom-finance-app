@@ -24,7 +24,7 @@ const DashboardPage = async () => {
   const transactions = await getDashboardData();
 
   return (
-    <div className="container mx-auto space-y-8">
+    <div className="container mx-auto space-y-8 px-4 sm:px-4 md:px-8 lg:px-16">
       {/* Budget Progress */}
 
       {defaultAccount && (
