@@ -115,10 +115,8 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
                   ) : (
                     <>
                       <CardDescription>
-                        {initialBudget
-                          ? `$${currentExpenses.toFixed(
-                              2
-                            )} of $${initialBudget.amount.toFixed(2)} spent`
+                        {initialBudget && initialBudget.amount
+                          ? `$${currentExpenses.toFixed(2)} of $${initialBudget.amount.toFixed(2)} spent`
                           : "No budget set"}
                       </CardDescription>
 
@@ -146,19 +144,24 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
                   percentUsed >= 90
                     ? "bg-red-500"
                     : percentUsed >= 75
-                    ? "bg-yellow-500"
-                    : "bg-green-500"
+                      ? "bg-yellow-500"
+                      : "bg-green-500"
                 }
               />
             </div>
           )}
           <div className="mt-2 flex items-center justify-between text-muted-foreground">
             <p className="text-sm">
-              {`Remaining: $${(initialBudget.amount - currentExpenses).toFixed(
-                2
-              )}`}
+              {initialBudget && initialBudget.amount
+                ? `Remaining: $${(initialBudget.amount - currentExpenses).toFixed(2)}`
+                : "Remaining: $0.00"}
             </p>
-            <p className="text-sm">{parseFloat(percentUsed).toFixed(1)}% used</p>
+
+            <p className="text-sm">
+              {initialBudget && initialBudget.amount
+                ? `${parseFloat(percentUsed).toFixed(1)}% used`
+                : "0% used"}
+            </p>
           </div>
         </CardContent>
       </Card>
